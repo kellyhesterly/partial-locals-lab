@@ -14,14 +14,10 @@ class Student < ActiveRecord::Base
   has_many :classrooms, through: :classroom_students
 
 def self.search(query)
-   student_list = []
-  if query.blank?
-     self.all
+  if query.present?
+    where("name LIKE ?", "%#{query}%")
   else
-    self.all.select do |student|
-      binding.pry
-      student_list << student.where("name LIKE ?", "%query")
-    end
+    self.all
   end
 end
  
